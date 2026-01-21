@@ -2,7 +2,6 @@ from turtle import onclick
 import streamlit as st
 import sqlite3
 import pandas as pd
-import time
 
 
 # MainPage class controls the dashboard page
@@ -17,6 +16,7 @@ class MainPage:
 
         st.logo('assets\\logo.png', size='large')
 
+        # Function to export our CSV
         def export_csv():
             conn = get_connection()
             df = pd.read_sql(f'SELECT * FROM inventory', conn)
@@ -44,7 +44,7 @@ class MainPage:
                label='🔻 Export CSV',
                data = export_csv,
                mime='text/csv',
-               help='Download Inventory As CSV',
+               help='Download Inventory',
                file_name='inventory.csv'
             )
 
@@ -142,7 +142,6 @@ class MainPage:
                     if item_name == "" or item_category == "":
                         st.toast('⚠️ Cannot Submit Empty List!')
 
-
                     else:
                         add_item_to_db(item_name, item_category,item_quantity, low_threshold)
                         st.rerun()
@@ -218,13 +217,13 @@ class MainPage:
             st.subheader('Action Menu')
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.button('Add Item', width=150, on_click=add_func) #add_func is the function at line 115
+                st.button('Add Item', width=150, on_click=add_func) # add_func is the function at line 115
 
             with col2:
-                st.button('Delete Item', width=150, on_click=delete_func) #delete_func is the function at line 135
+                st.button('Delete Item', width=150, on_click=delete_func) # delete_func is the function at line 135
 
             with col3:
-                st.button('Update', width=150, on_click=update_func) #update_func is the function at line 155
+                st.button('Update', width=150, on_click=update_func) # update_func is the function at line 155
 
         # Creating a dataframe to display low stock items
         if not low_stocks.empty:
